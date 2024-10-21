@@ -1,19 +1,13 @@
-import { Container } from "@/components/Container";
-import { PostCard } from "@/components/PostCard";
-import { Post } from "@/redux/slices/post/types";
+'use client';
 
-export default async function Page() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-  const posts = await res.json();
+import { Container } from '@/components/Container';
+import { Posts } from '@/components/Posts/Posts';
 
+export default async function HomePage() {
   return (
-    <div className="bg-grayBg">
+    <div className="bg-grayBg min-h-full">
       <Container>
-        <div className="grid grid-cols-4 gap-4 ">
-          {posts.map((post: Post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
+        <Posts />
       </Container>
     </div>
   );
