@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-export const InputFile = () => {
+export const InputFile = ({ name, onChange }: any) => {
   const [fileName, setFileName] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -24,9 +24,10 @@ export const InputFile = () => {
     <>
       <input
         type="file"
+        name={name}
         ref={fileInputRef}
         className="hidden"
-        onChange={handleFileChange}
+        onChange={onChange}
       />
       <button
         onClick={handleButtonClick}

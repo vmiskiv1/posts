@@ -1,6 +1,6 @@
 export const Button = ({
-  type = "button",
-  color = "primary",
+  type = 'button',
+  color = 'primary',
   handleClick,
   children,
   className,

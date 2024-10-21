@@ -1,9 +1,8 @@
-import { Editor } from "@tinymce/tinymce-react";
-import React, { useState } from "react";
-import { Button } from "../Button";
+import { Editor } from '@tinymce/tinymce-react';
+import React, { useState } from 'react';
 
-export const MCEditor = () => {
-  const [content, setContent] = useState("");
+export const MCEditor = ({ name, value, onChange, onBlur, error }: any) => {
+  const [content, setContent] = useState('');
 
   const handleEditorChange = (content: string) => {
     setContent(content);
@@ -25,39 +24,39 @@ export const MCEditor = () => {
     // } else {
     //   console.error("error");
     // }
-    console.log(typeof content === "string" ? true : false);
+    console.log(typeof content === 'string' ? true : false);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-4">
+    <>
       <Editor
         apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
-        initialValue=""
+        initialValue={value}
         init={{
           height: 250,
-          width: "100%",
+          width: '100%',
           menubar: false,
           plugins: [
-            "link",
-            "image",
-            "advlist autolink lists charmap print preview anchor",
-            "searchreplace visualblocks code fullscreen",
-            "insertdatetime media table paste code help wordcount",
+            'link',
+            'image',
+            'advlist autolink lists charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount',
           ],
           toolbar:
-            "undo redo | styleselect | bold italic backcolor | " +
-            "alignleft aligncenter alignright alignjustify | " +
-            "bullist numlist outdent indent | link image | " +
-            "preview code | help",
-          placeholder: "Write something...",
+            'undo redo | styleselect | bold italic backcolor | ' +
+            'alignleft aligncenter alignright alignjustify | ' +
+            'bullist numlist outdent indent | link image | ' +
+            'preview code | help',
+          placeholder: 'Write something...',
           image_title: true,
           automatic_uploads: true,
-          file_picker_types: "image",
+          file_picker_types: 'image',
           file_picker_callback: function (cb, value, meta) {
-            if (meta.filetype === "image") {
-              const input = document.createElement("input");
-              input.setAttribute("type", "file");
-              input.setAttribute("accept", "image/*");
+            if (meta.filetype === 'image') {
+              const input = document.createElement('input');
+              input.setAttribute('type', 'file');
+              input.setAttribute('accept', 'image/*');
 
               input.onchange = function () {
                 if (input.files && input.files.length) {
@@ -74,14 +73,10 @@ export const MCEditor = () => {
             }
           },
         }}
-        onEditorChange={handleEditorChange}
+        onEditorChange={onChange}
+        onBlur={onBlur}
       />
-      <Button
-        type="submit"
-        className="mt-10 w-full bg-green-400 hover:bg-green-500 text-white"
-      >
-        Add a post
-      </Button>
-    </form>
+      {error}
+    </>
   );
 };
