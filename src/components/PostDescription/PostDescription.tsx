@@ -4,10 +4,11 @@ import { useAppDispatch, useAppSelector } from '@/redux/slices/hooks';
 import { isPostEditorMode, selectPost } from '@/redux/slices/post';
 import { removePost } from '@/services/posts';
 import { useRouter } from 'next/navigation';
+import { AddPostModal } from '../AddPostModal';
 import { Button } from '../Button';
 
 export const PostDescription = () => {
-  const { postData: post } = useAppSelector(selectPost);
+  const { postData: post, postEditorMode } = useAppSelector(selectPost);
 
   const router = useRouter();
 
@@ -24,9 +25,14 @@ export const PostDescription = () => {
     }
   };
 
-  const handleEditPost = () => {
+  const handleEditPostOpen = () => {
     dispatch(isPostEditorMode(true));
   };
+
+  const handleClosePost = () => {
+    dispatch(isPostEditorMode(false));
+  };
+
   return (
     <>
       {post && (
@@ -54,7 +60,7 @@ export const PostDescription = () => {
               <div className="flex gap-4 justify-end">
                 <Button
                   className="bg-blue-500 text-white hover:bg-blue-600"
-                  handleClick={handleEditPost}
+                  handleClick={handleEditPostOpen}
                 >
                   Edit
                 </Button>
@@ -68,6 +74,9 @@ export const PostDescription = () => {
             </div>
           </div>
         </div>
+      )}
+      {postEditorMode && (
+        <AddPostModal closeModal={handleClosePost} postToEdit={post} />
       )}
     </>
   );

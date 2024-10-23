@@ -7,7 +7,7 @@ import { Post } from './types';
 
 const initialState: any = {
   postData: null,
-  istPostEditorMode: false,
+  postEditorMode: false,
   loading: false,
   error: null,
 };
@@ -23,7 +23,7 @@ export const postSlice = createSlice({
       state.post = null;
     },
     isPostEditorMode(state, action: PayloadAction<boolean>) {
-      state.istPostEditorMode = action.payload;
+      state.postEditorMode = action.payload;
     },
   },
   extraReducers: (builder) => {

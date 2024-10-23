@@ -1,6 +1,9 @@
 import useButtonListener from '@/hooks/useButtonListener';
+import { useAppSelector } from '@/redux/slices/hooks';
+import { selectPost } from '@/redux/slices/post';
 import { addPost } from '@/services/posts';
 import { useFormik } from 'formik';
+import ReactDOM from 'react-dom';
 import { IoClose } from 'react-icons/io5';
 import * as Yup from 'yup';
 import { Button } from '../Button';
@@ -9,8 +12,14 @@ import { InputText } from '../InputText';
 import { MCEditor } from '../MCEdior';
 import { AddPostModalProps } from './types';
 
-export const AddPostModal = ({ closeModal }: AddPostModalProps) => {
+export const AddPostModal = ({ closeModal, postToEdit }: AddPostModalProps) => {
   useButtonListener(closeModal);
+
+  const { isPostEditorMode } = useAppSelector(selectPost);
+
+  const modalRoot = document.getElementById('modal-root');
+
+  if (!modalRoot) return null;
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
@@ -21,10 +30,10 @@ export const AddPostModal = ({ closeModal }: AddPostModalProps) => {
 
   const formik = useFormik({
     initialValues: {
-      title: '',
-      description: '',
-      imageUrl: null,
-      content: '',
+      title: postToEdit?.title || '',
+      description: postToEdit?.description || '',
+      imageUrl: postToEdit?.description || null,
+      content: postToEdit?.content || '',
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -43,7 +52,7 @@ export const AddPostModal = ({ closeModal }: AddPostModalProps) => {
     },
   });
 
-  return (
+  return ReactDOM.createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm"></div>
       <div className="bg-white py-4 px-4 rounded-lg shadow-lg z-10 relative max-w-[600px] w-full max-md:h-full">
@@ -124,6 +133,7 @@ export const AddPostModal = ({ closeModal }: AddPostModalProps) => {
           </Button>
         </form>
       </div>
-    </div>
+    </div>,
+    modalRoot,
   );
 };

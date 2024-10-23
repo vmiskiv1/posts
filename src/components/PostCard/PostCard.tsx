@@ -5,9 +5,12 @@ import { PostCardProps } from './types';
 
 export const PostCard = ({ post }: PostCardProps) => {
   return (
-    <div className="flex bg-white flex-col rounded-md shadow-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer h-[360px]">
+    <div className="flex bg-white flex-col rounded-md shadow-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer h-96">
       <Image
-        src={post.imageUrl}
+        src={
+          post.imageUrl ||
+          'https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg'
+        }
         width={300}
         height={100}
         alt="post image"

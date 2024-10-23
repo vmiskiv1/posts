@@ -19,17 +19,14 @@ export const Posts = () => {
   }, []);
 
   return (
-    <div className="py-10">
-      <div className="py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {posts &&
-          !!posts.length &&
-          posts.map((post: Post) => (
-            <Link key={post.id} href={`/post/${post.id}`} passHref>
-              <PostCard post={post} />
-            </Link>
-          ))}
-        <div>Pagination</div>
-      </div>
+    <div className="py-32 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {posts &&
+        !!posts.length &&
+        posts.map((post: Post) => (
+          <Link key={post.id} href={`/post/${post.id}`} passHref>
+            <PostCard post={post} />
+          </Link>
+        ))}
     </div>
   );
 };
