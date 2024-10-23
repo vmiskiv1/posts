@@ -1,16 +1,14 @@
 import { formatDateAndTime } from '@/utils/formattedDate';
 import Image from 'next/image';
 import { MdOutlineCalendarMonth } from 'react-icons/md';
+import defaultImage from '../../../public/default-post-image.jpg';
 import { PostCardProps } from './types';
 
 export const PostCard = ({ post }: PostCardProps) => {
   return (
     <div className="flex bg-white flex-col rounded-md shadow-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer h-96">
       <Image
-        src={
-          post.imageUrl ||
-          'https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg'
-        }
+        src={post.imageUrl || defaultImage}
         width={300}
         height={100}
         alt="post image"

@@ -1,27 +1,26 @@
 export const request = async ({
+  url = '',
   endpoint = '/',
   method = 'GET',
   headers = {},
   body,
 }: any) => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_API;
+  const baseUrl = url || process.env.NEXT_PUBLIC_BASE_API;
 
   if (!baseUrl) {
     throw new Error(
-      'Base API URL is not defined. Check your environment variables.',
+      'The API URL is not defined. Check your environment variables.',
     );
   }
 
   const response = await fetch(`${baseUrl}${endpoint}`, {
     method,
-    headers: {
-      'Content-Type': 'application/json',
-      ...headers,
-    },
-    body: body ? JSON.stringify(body) : undefined,
+    headers,
+    body,
   });
 
   const contentType = response.headers.get('content-type');
+
   if (contentType && contentType.includes('application/json')) {
     return response.json();
   } else {

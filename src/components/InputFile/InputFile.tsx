@@ -1,3 +1,4 @@
+import { uploadPostImage } from '@/services/posts';
 import { useRef, useState } from 'react';
 
 export const InputFile = ({ name, onChange }: any) => {
@@ -5,19 +6,24 @@ export const InputFile = ({ name, onChange }: any) => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleButtonClick = () => {
+  const handleUploadImage = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files && event.target.files[0];
-    if (file) {
-      setFileName(file.name);
-    } else {
-      setFileName(null);
-    }
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+
+    setFileName(file.name);
+
+    const imageUrl = await uploadPostImage(file);
+
+    onChange(imageUrl);
   };
 
   return (
@@ -27,10 +33,10 @@ export const InputFile = ({ name, onChange }: any) => {
         name={name}
         ref={fileInputRef}
         className="hidden"
-        onChange={onChange}
+        onChange={handleFileChange}
       />
       <button
-        onClick={handleButtonClick}
+        onClick={handleUploadImage}
         className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
       >
         {fileName ? fileName : 'Choose file'}

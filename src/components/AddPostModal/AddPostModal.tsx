@@ -54,14 +54,12 @@ export const AddPostModal = ({ closeModal, postToEdit }: AddPostModalProps) => {
         } else {
           await addPost({
             ...values,
-            imageUrl:
-              'https://img.freepik.com/free-vector/hand-drawn-web-developers_23-2148819604.jpg',
             publishedAt: new Date().toISOString(),
           });
         }
 
-        closeModal();
-        router.push('/');
+        // closeModal();
+        // router.push('/');
       } catch (error) {
         console.error('Failed to add post', error);
       }
@@ -102,11 +100,8 @@ export const AddPostModal = ({ closeModal, postToEdit }: AddPostModalProps) => {
             <div className="w-1/4 mt-9 flex justify-end">
               <InputFile
                 name="imageUrl"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  formik.setFieldValue(
-                    'imageUrl',
-                    event.currentTarget.files?.[0] || null,
-                  );
+                onChange={(url: string) => {
+                  formik.setFieldValue('imageUrl', url);
                 }}
               />
             </div>
