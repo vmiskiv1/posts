@@ -1,4 +1,4 @@
 export interface AddPostModalProps {
   closeModal: () => void;
-  postToEdit: any;
+  postToEdit?: any;
 }
