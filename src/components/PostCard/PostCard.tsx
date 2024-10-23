@@ -1,22 +1,31 @@
 import { formatDateAndTime } from '@/utils/formattedDate';
 import Image from 'next/image';
+import { MdOutlineCalendarMonth } from 'react-icons/md';
 import { PostCardProps } from './types';
 
 export const PostCard = ({ post }: PostCardProps) => {
-  console.log(post);
   return (
-    <div className="flex bg-white flex-col rounded-md shadow-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer">
+    <div className="flex bg-white flex-col rounded-md shadow-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer h-[360px]">
       <Image
-        src="https://img.freepik.com/free-vector/hand-drawn-web-developers_23-2148819604.jpg"
+        src={post.imageUrl}
         width={300}
         height={100}
         alt="post image"
-        className="rounded-t-md"
+        className="rounded-t-md h-40 object-cover w-full"
       />
-      <div className="p-4">
-        <div className="text-xl font-semibold">{post.title}</div>
-        <div>{post.description}</div>
-        <div className="mt-10 text-xs">
+      <div className="flex flex-col p-4 flex-grow">
+        <div className="text-xl font-semibold">
+          {post.title.length > 40
+            ? `${post.title.slice(0, 40)}...`
+            : post.title}
+        </div>
+        <div className="text-gray-600 text-sm mt-2">
+          {post.description.length > 80
+            ? `${post.description.slice(0, 80)}...`
+            : post.description}
+        </div>
+        <div className="mt-auto text-xs flex justify-start items-center gap-1">
+          <MdOutlineCalendarMonth />
           {formatDateAndTime(post.publishedAt)}
         </div>
       </div>

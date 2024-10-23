@@ -21,7 +21,7 @@ export const InputFile = ({ name, onChange }: any) => {
   };
 
   return (
-    <>
+    <div className="h-14">
       <input
         type="file"
         name={name}
@@ -35,6 +35,6 @@ export const InputFile = ({ name, onChange }: any) => {
       >
         {fileName ? fileName : 'Choose file'}
       </button>
-    </>
+    </div>
   );
 };

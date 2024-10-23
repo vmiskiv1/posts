@@ -1,32 +1,6 @@
 import { Editor } from '@tinymce/tinymce-react';
-import React, { useState } from 'react';
 
 export const MCEditor = ({ name, value, onChange, onBlur, error }: any) => {
-  const [content, setContent] = useState('');
-
-  const handleEditorChange = (content: string) => {
-    setContent(content);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // const response = await fetch("/api/save", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ content }),
-    // });
-
-    // if (response.ok) {
-    //   console.log("Sent");
-    // } else {
-    //   console.error("error");
-    // }
-    console.log(typeof content === 'string' ? true : false);
-  };
-
   return (
     <>
       <Editor
@@ -76,7 +50,7 @@ export const MCEditor = ({ name, value, onChange, onBlur, error }: any) => {
         onEditorChange={onChange}
         onBlur={onBlur}
       />
-      {error}
+      {error && <p className="text-red-500 mt-1 text-xs">{error}</p>}
     </>
   );
 };

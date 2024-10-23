@@ -8,3 +8,21 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.prose p {
+  white-space: normal;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  white-space: normal;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+}

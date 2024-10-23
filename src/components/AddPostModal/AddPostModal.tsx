@@ -28,9 +28,13 @@ export const AddPostModal = ({ closeModal }: AddPostModalProps) => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
       try {
-        await addPost({ ...values, publishedAt: new Date().toISOString() });
+        await addPost({
+          ...values,
+          imageUrl:
+            'https://img.freepik.com/free-vector/hand-drawn-web-developers_23-2148819604.jpg',
+          publishedAt: new Date().toISOString(),
+        });
 
         closeModal();
       } catch (error) {
@@ -42,7 +46,7 @@ export const AddPostModal = ({ closeModal }: AddPostModalProps) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm"></div>
-      <div className="bg-white py-4 px-4 rounded-lg shadow-lg z-10 relative max-w-[600px] w-full mx-4">
+      <div className="bg-white py-4 px-4 rounded-lg shadow-lg z-10 relative max-w-[600px] w-full max-md:h-full">
         <form onSubmit={formik.handleSubmit}>
           <div className="flex mb-6 justify-between items-center">
             <h2 className="ml-2 text-xl font-semibold">Add a Post</h2>
@@ -97,22 +101,26 @@ export const AddPostModal = ({ closeModal }: AddPostModalProps) => {
                 : null
             }
           />
-          <MCEditor
-            name="content"
-            value={formik.values.content}
-            onChange={(value: string) => formik.setFieldValue('content', value)}
-            onBlur={formik.handleBlur}
-            error={
-              formik.touched.content && formik.errors.content
-                ? formik.errors.content
-                : null
-            }
-          />
+          <div className="mt-5">
+            <MCEditor
+              name="content"
+              value={formik.values.content}
+              onChange={(value: string) =>
+                formik.setFieldValue('content', value)
+              }
+              onBlur={formik.handleBlur}
+              error={
+                formik.touched.content && formik.errors.content
+                  ? formik.errors.content
+                  : null
+              }
+            />
+          </div>
           <Button
             type="submit"
-            className="mt-10 w-full bg-green-400 hover:bg-green-500 text-white"
+            className="mt-10 w-full hover:bg-blue-600 text-white"
           >
-            Add a post
+            {isPostEditorMode ? 'Edit ' : 'Add '}post
           </Button>
         </form>
       </div>

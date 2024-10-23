@@ -1,4 +1,9 @@
-import { notFound } from "next/navigation";
+'use client';
+
+import { PostDescription } from '@/components/PostDescription';
+import { useAppDispatch } from '@/redux/slices/hooks';
+import { fetchPostById } from '@/redux/thunks/post';
+import { useEffect, useState } from 'react';
 
 interface PostPageProps {
   params: {
@@ -6,33 +11,27 @@ interface PostPageProps {
   };
 }
 
-async function getPostData(id: string) {
-  const response = await fetch(
-    `https://jsonplaceholder.typicode.com/posts/${id}`,
-  );
-
-  if (!response.ok) {
-    return undefined;
-  }
-
-  return response.json();
-}
-
-export default async function PostPage({ params }: PostPageProps) {
+export default function PostPage({ params }: PostPageProps) {
   const { id } = params;
+  const dispatch = useAppDispatch();
 
-  const post = await getPostData(id);
+  const [isClient, setIsClient] = useState(false);
 
-  if (!post) {
-    notFound();
-  }
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
-  console.log(post);
+  useEffect(() => {
+    dispatch(fetchPostById(id));
+  }, [dispatch, id]);
 
-  return (
-    <div>
-      <h1>{post.title}</h1>
-      <p>{post.body}</p>
-    </div>
-  );
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
+
+  // if (error || !post) {
+  //   return <div>Post not found</div>;
+  // }
+
+  return <>{isClient && <PostDescription />}</>;
 }

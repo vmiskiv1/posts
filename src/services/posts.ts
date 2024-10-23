@@ -8,6 +8,19 @@ export const getPosts = async () => {
 
 export const addPost = async (body: any) => {
   const addedPost = await request({ method: 'POST', endpoint: '/posts', body });
+};
 
-  console.log(addedPost);
+export const getPostById = async (postId: string) => {
+  const data = await request({ method: 'GET', endpoint: `/posts/${postId}` });
+
+  return data;
+};
+
+export const removePost = async (postId: string) => {
+  const data = await request({
+    method: 'DELETE',
+    endpoint: `/posts/${postId}`,
+  });
+
+  return data;
 };

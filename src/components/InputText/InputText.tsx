@@ -23,7 +23,7 @@ export const InputText = ({
           onBlur={onBlur}
           className={`border-2 w-[100%] rounded-md py-2 px-4 outline-none ${className}`}
         />
-        {error && <p className="text-red-500 mt-1">{error}</p>}
+        {error && <p className="text-red-500 mt-1 text-xs">{error}</p>}
       </label>
     </div>
   );
