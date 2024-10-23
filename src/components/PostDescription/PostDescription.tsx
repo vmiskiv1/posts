@@ -17,11 +17,12 @@ export const PostDescription = () => {
   const handleDeletePost = async () => {
     try {
       await removePost(post.id);
-
       router.push('/');
     } catch (error) {
       console.error('Error deleting post:', error);
-      alert(error.message);
+
+      const message = (error as Error).message || 'An unknown error occurred';
+      alert(message);
     }
   };
 

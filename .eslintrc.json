@@ -1,18 +1,37 @@
 {
+  "root": true,
   "extends": [
+    "next/core-web-vitals",
     "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:prettier/recommended"
+    "plugin:@typescript-eslint/recommended"
   ],
-  "plugins": ["prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module"
+  },
   "rules": {
-    "prettier/prettier": "error",
-    "sort-imports": [
-      "error",
-      {
-        "ignoreCase": true,
-        "ignoreDeclarationSort": true
+    "react-hooks/rules-of-hooks": "off",
+    // "no-console": "warn",
+    "semi": ["error", "always"],
+    // "quotes": ["error", "single"],
+    "indent": ["error", 2]
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          { "argsIgnorePattern": "^_" }
+        ],
+        "@typescript-eslint/explicit-module-boundary-types": "off"
       }
-    ]
-  }
+    },
+    {
+      "files": ["*.js"],
+      "rules": {}
+    }
+  ]
 }

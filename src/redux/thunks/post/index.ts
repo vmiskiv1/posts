@@ -10,7 +10,9 @@ export const fetchPostById = createAsyncThunk(
       });
       return response;
     } catch (error) {
-      return rejectWithValue(error.message || 'Failed to fetch post');
+      return rejectWithValue(
+        (error as Error).message || 'Failed to fetch post',
+      );
     }
   },
 );
