@@ -17,6 +17,7 @@ export const PostDescription = () => {
   const handleDeletePost = async () => {
     try {
       await removePost(post.id);
+
       router.push('/');
     } catch (error) {
       console.error('Error deleting post:', error);

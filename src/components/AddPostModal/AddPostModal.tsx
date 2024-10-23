@@ -1,8 +1,9 @@
 import useButtonListener from '@/hooks/useButtonListener';
 import { useAppSelector } from '@/redux/slices/hooks';
 import { selectPost } from '@/redux/slices/post';
-import { addPost } from '@/services/posts';
+import { addPost, updatePost } from '@/services/posts';
 import { useFormik } from 'formik';
+import { useRouter } from 'next/navigation';
 import ReactDOM from 'react-dom';
 import { IoClose } from 'react-icons/io5';
 import * as Yup from 'yup';
@@ -15,7 +16,9 @@ import { AddPostModalProps } from './types';
 export const AddPostModal = ({ closeModal, postToEdit }: AddPostModalProps) => {
   useButtonListener(closeModal);
 
-  const { isPostEditorMode } = useAppSelector(selectPost);
+  const { postEditorMode } = useAppSelector(selectPost);
+
+  const router = useRouter();
 
   const modalRoot = document.getElementById('modal-root');
 
@@ -32,20 +35,33 @@ export const AddPostModal = ({ closeModal, postToEdit }: AddPostModalProps) => {
     initialValues: {
       title: postToEdit?.title || '',
       description: postToEdit?.description || '',
-      imageUrl: postToEdit?.description || null,
+      imageUrl: postToEdit?.imageUrl || null,
       content: postToEdit?.content || '',
     },
     validationSchema,
     onSubmit: async (values) => {
       try {
-        await addPost({
-          ...values,
-          imageUrl:
-            'https://img.freepik.com/free-vector/hand-drawn-web-developers_23-2148819604.jpg',
-          publishedAt: new Date().toISOString(),
-        });
+        if (postEditorMode) {
+          const postData = {
+            ...values,
+            updatedAt: new Date().toISOString(),
+          };
+
+          await updatePost({
+            postId: postToEdit.id,
+            postData,
+          });
+        } else {
+          await addPost({
+            ...values,
+            imageUrl:
+              'https://img.freepik.com/free-vector/hand-drawn-web-developers_23-2148819604.jpg',
+            publishedAt: new Date().toISOString(),
+          });
+        }
 
         closeModal();
+        router.push('/');
       } catch (error) {
         console.error('Failed to add post', error);
       }
@@ -129,7 +145,7 @@ export const AddPostModal = ({ closeModal, postToEdit }: AddPostModalProps) => {
             type="submit"
             className="mt-10 w-full hover:bg-blue-600 text-white"
           >
-            {isPostEditorMode ? 'Edit ' : 'Add '}post
+            {postEditorMode ? 'Edit ' : 'Add '}post
           </Button>
         </form>
       </div>

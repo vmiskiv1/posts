@@ -6,14 +6,28 @@ export const getPosts = async () => {
   return posts;
 };
 
-export const addPost = async (body: any) => {
-  const addedPost = await request({ method: 'POST', endpoint: '/posts', body });
+export const addPost = async (postData: any) => {
+  const addedPost = await request({
+    method: 'POST',
+    endpoint: '/posts',
+    body: postData,
+  });
 };
 
 export const getPostById = async (postId: string) => {
-  const data = await request({ method: 'GET', endpoint: `/posts/${postId}` });
+  const post = await request({ method: 'GET', endpoint: `/posts/${postId}` });
 
-  return data;
+  return post;
+};
+
+export const updatePost = async ({ postId, postData }: any) => {
+  const updatedPost = await request({
+    method: 'PATCH',
+    endpoint: `/posts/${postId}`,
+    body: postData,
+  });
+
+  return updatedPost;
 };
 
 export const removePost = async (postId: string) => {

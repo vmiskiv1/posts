@@ -5,7 +5,7 @@ import { Posts } from '@/components/Posts/Posts';
 
 export default function HomePage() {
   return (
-    <div className="bg-grayBg h-screen">
+    <div className="bg-grayBg h-full">
       <Container>
         <Posts />
       </Container>
