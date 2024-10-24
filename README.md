@@ -1,36 +1,74 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+# BlogApp
+
+BlogApp is a Next.js-based blog platform that leverages various modern libraries and tools, including Redux Toolkit for state management, Formik for form handling, and TinyMCE for rich text editing. The project uses `pnpm` for package management.
+
+The application is already deployed and running on [Vercel](https://vmiskiv-posts.vercel.app/).
+
+## Prerequisites
+
+- Node.js 18 or later
+- pnpm (https://pnpm.io/installation)
+
 ## Getting Started
 
-First, run the development server:
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/vmiskiv1/posts.git
+cd posts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Make sure pnpm is installed globally. Then, run the following command to install the necessary dependencies:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm install
+```
 
-## Learn More
+### 3. Environment Variables
 
-To learn more about Next.js, take a look at the following resources:
+Create a .env.local file in the root directory of the project, and add any necessary environment variables. Here's an example:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+NEXT_PUBLIC_TINYMCE_API_KEY=your tinymce api key
+NEXT_PUBLIC_BASE_API=your server
+NEXT_PUBLIC_IMGBB_API=your imgbb api
+NEXT_PUBLIC_IMGBB_API_KEY=your imgbb api key
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. Running the Application
 
-## Deploy on Vercel
+To start the development server:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open http://localhost:3000 to view the app in your browser.
+
+### 5. Building for Production
+
+To create a production build:
+
+```bash
+pnpm build
+```
+
+After building, you can start the production server:
+
+```bash
+pnpm start
+```
+
+### Tech Stack
+
+- Next.js (v14.2.15)
+- React (v18)
+- Redux Toolkit (v2.3.0)
+- Formik (v2.4.6)
+- TinyMCE (v7.4.1)
+- Tailwind CSS (v3.4.1)
+- TypeScript (v5)
