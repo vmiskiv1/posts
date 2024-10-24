@@ -1,21 +1,15 @@
+import { Post } from '@/redux/slices/post/types';
 import request from './request';
 
-export const getPosts = async () => {
-  return await request({ endpoint: '/posts' });
-};
-
-export const addPost = async (postData: any) => {
+export const addPost = async (postData: Post) => {
   return await request({
     method: 'POST',
     endpoint: '/posts',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(postData),
+    body: postData,
   });
 };
 
-export const uploadPostImage = async (file: any) => {
+export const uploadPostImage = async (file: File) => {
   const formData = new FormData();
 
   formData.append('image', file);
@@ -43,11 +37,17 @@ export const getPostById = async (postId: string) => {
   return await request({ method: 'GET', endpoint: `/posts/${postId}` });
 };
 
-export const updatePost = async ({ postId, postData }: any) => {
+export const updatePost = async ({
+  postId,
+  postData,
+}: {
+  postId: string;
+  postData: Post;
+}) => {
   return await request({
     method: 'PATCH',
     endpoint: `/posts/${postId}`,
-    body: JSON.stringify(postData),
+    body: postData,
   });
 };
 

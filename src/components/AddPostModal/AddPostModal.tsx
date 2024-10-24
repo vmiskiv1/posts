@@ -1,35 +1,26 @@
 import useButtonListener from '@/hooks/useButtonListener';
-import { useAppSelector } from '@/redux/slices/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/slices/hooks';
 import { selectPost } from '@/redux/slices/post';
+import { getPosts } from '@/redux/thunks/post';
 import { addPost, updatePost } from '@/services/posts';
+import { postValidationSchema } from '@/utils/postValidationSchema';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import ReactDOM from 'react-dom';
 import { IoClose } from 'react-icons/io5';
-import * as Yup from 'yup';
 import { Button } from '../Button';
 import { InputFile } from '../InputFile';
 import { InputText } from '../InputText';
 import { MCEditor } from '../MCEdior';
-import { AddPostModalProps } from './types';
 
-export const AddPostModal = ({ closeModal, postToEdit }: AddPostModalProps) => {
+export const AddPostModal = ({ closeModal, postToEdit }: any) => {
   useButtonListener(closeModal);
 
   const { postEditorMode } = useAppSelector(selectPost);
 
   const router = useRouter();
 
-  const modalRoot = document.getElementById('modal-root');
-
-  if (!modalRoot) return null;
-
-  const validationSchema = Yup.object().shape({
-    title: Yup.string().required('Title is required'),
-    description: Yup.string().required('Description is required'),
-    imageUrl: Yup.mixed().nullable(),
-    content: Yup.string().required('Content is required'),
-  });
+  const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -38,7 +29,7 @@ export const AddPostModal = ({ closeModal, postToEdit }: AddPostModalProps) => {
       imageUrl: postToEdit?.imageUrl || null,
       content: postToEdit?.content || '',
     },
-    validationSchema,
+    validationSchema: postValidationSchema,
     onSubmit: async (values) => {
       try {
         if (postEditorMode) {
@@ -48,7 +39,7 @@ export const AddPostModal = ({ closeModal, postToEdit }: AddPostModalProps) => {
           };
 
           await updatePost({
-            postId: postToEdit.id,
+            postId: postToEdit?.id,
             postData,
           });
         } else {
@@ -58,19 +49,30 @@ export const AddPostModal = ({ closeModal, postToEdit }: AddPostModalProps) => {
           });
         }
 
-        // closeModal();
-        // router.push('/');
+        dispatch(getPosts());
+        closeModal();
+        router.push('/');
       } catch (error) {
         console.error('Failed to add post', error);
       }
     },
   });
 
+  const modalRoot = document.getElementById('modal-root');
+
+  if (!modalRoot) return null;
+
   return ReactDOM.createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm"></div>
       <div className="bg-white py-4 px-4 rounded-lg shadow-lg z-10 relative max-w-[600px] w-full max-md:h-full">
-        <form onSubmit={formik.handleSubmit}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+
+            formik.handleSubmit();
+          }}
+        >
           <div className="flex mb-6 justify-between items-center">
             <h2 className="ml-2 text-xl font-semibold">Add a Post</h2>
             <IoClose
@@ -103,6 +105,11 @@ export const AddPostModal = ({ closeModal, postToEdit }: AddPostModalProps) => {
                 onChange={(url: string) => {
                   formik.setFieldValue('imageUrl', url);
                 }}
+                error={
+                  formik.touched.imageUrl && formik.errors.imageUrl
+                    ? formik.errors.imageUrl
+                    : null
+                }
               />
             </div>
           </div>

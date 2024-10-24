@@ -16,3 +16,18 @@ export const fetchPostById = createAsyncThunk(
     }
   },
 );
+
+export const getPosts = createAsyncThunk(
+  'posts/getPosts',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await request({ endpoint: '/posts' });
+
+      return response;
+    } catch (error) {
+      return rejectWithValue(
+        (error as Error).message || 'Failed to fetch posts',
+      );
+    }
+  },
+);

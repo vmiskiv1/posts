@@ -1,6 +1,6 @@
 import { Editor } from '@tinymce/tinymce-react';
 
-export const MCEditor = ({ name, value, onChange, onBlur, error }: any) => {
+export const MCEditor = ({ value, onChange, onBlur, error }: any) => {
   return (
     <>
       <Editor

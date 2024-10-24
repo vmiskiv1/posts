@@ -7,7 +7,6 @@ import { removePost } from '@/services/posts';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import defaultImage from '../../../public/default-post-image.jpg';
 import { AddPostModal } from '../AddPostModal';
 import { Button } from '../Button';
 
@@ -24,6 +23,10 @@ export const PostDescription = ({ postId }: { postId: string }) => {
   }, [postId, dispatch]);
 
   const handleDeletePost = async () => {
+    if (!post || !post.id) {
+      return;
+    }
+
     try {
       await removePost(post.id);
 
@@ -44,30 +47,30 @@ export const PostDescription = ({ postId }: { postId: string }) => {
   };
 
   return (
-    <>
-      <div className="container mx-auto px-4 py-20">
-        <div className="max-w-2xl mx-auto border border-gray-300 shadow-md rounded-md">
+    <div className="relative">
+      <div className="fixed top-0 left-0 w-full h-full z-[-1] bg-grayBg">
+        {post?.imageUrl && (
           <Image
-            width={400}
-            height={400}
-            src={post.imageUrl || defaultImage}
+            src={post.imageUrl}
             alt={post.title}
-            className="w-full h-auto object-cover rounded-t-md shadow-md"
+            layout="fill"
+            objectFit="cover"
           />
-
+        )}
+      </div>
+      <div className="container mx-auto px-4 py-20">
+        <div className="max-w-2xl mx-auto rounded-md bg-white">
           <div className="p-6">
-            <h1 className="text-3xl font-bold text-gray-800 md:text-4xl text-center">
-              {post.title}
+            <h1 className="text-3xl font-bold text-gray-800 md:text-4xl text-left py-4">
+              {post?.title}
             </h1>
-            <hr className="border-t border-gray-300 my-4" />{' '}
             {post?.content && (
               <div
-                className="prose prose-lg max-w-none text-gray-700 md:text-lg lg:text-xl mx-auto"
+                className="mt-6 prose prose-lg max-w-none text-gray-700 md:text-lg lg:text-xl mx-auto"
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
             )}
-            <hr className="border-t border-gray-300 my-4" />
-            <div className="flex gap-4 justify-end">
+            <div className="mt-10 flex gap-4 justify-end">
               <Button
                 className="bg-blue-500 text-white hover:bg-blue-600"
                 handleClick={handleEditPostOpen}
@@ -87,6 +90,6 @@ export const PostDescription = ({ postId }: { postId: string }) => {
       {postEditorMode && (
         <AddPostModal closeModal={handleEditPostClose} postToEdit={post} />
       )}
-    </>
+    </div>
   );
 };

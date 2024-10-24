@@ -1,7 +1,5 @@
 'use client';
 
-import { useAppSelector } from '@/redux/slices/hooks';
-import { selectPost } from '@/redux/slices/post';
 import Link from 'next/link';
 import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
@@ -10,8 +8,6 @@ import { Button } from '../Button';
 
 export const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const post = useAppSelector(selectPost);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);

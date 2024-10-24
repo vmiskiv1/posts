@@ -1,21 +1,19 @@
 'use client';
+import { useAppDispatch, useAppSelector } from '@/redux/slices/hooks';
+import { selectPost } from '@/redux/slices/post';
 import { Post } from '@/redux/slices/post/types';
-import { getPosts } from '@/services/posts';
+import { getPosts } from '@/redux/thunks/post';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { PostCard } from '../PostCard';
 
 export const Posts = () => {
-  const [posts, setPosts] = useState([]);
+  const { posts } = useAppSelector(selectPost);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPosts();
-
-      setPosts(response);
-    };
-
-    fetchPosts();
+    dispatch(getPosts());
   }, []);
 
   return (

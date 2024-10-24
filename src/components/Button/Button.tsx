@@ -1,12 +1,14 @@
 'use client';
 
+import { ButtonProps } from './types';
+
 export const Button = ({
   type = 'button',
   color = 'primary',
   handleClick,
   children,
   className,
-}: any) => {
+}: ButtonProps) => {
   return (
     <button
       type={type}

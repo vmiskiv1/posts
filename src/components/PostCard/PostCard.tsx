@@ -27,7 +27,7 @@ export const PostCard = ({ post }: PostCardProps) => {
         </div>
         <div className="mt-auto text-xs flex justify-start items-center gap-1">
           <MdOutlineCalendarMonth />
-          {formatDateAndTime(post.publishedAt)}
+          {formatDateAndTime(post.publishedAt as string)}
         </div>
       </div>
     </div>
